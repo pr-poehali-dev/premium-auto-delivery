@@ -310,60 +310,48 @@ function About() {
 // ── CATALOG ───────────────────────────────────────────────────────────────────
 const CARS = [
   {
-    id: 1, brand: "Toyota", model: "Land Cruiser 300", year: 2022, price: 7200000,
-    country: "Япония", fuel: "Дизель", engine: "3.3", mileage: 18000, body: "SUV",
-    img: IMG_LC300,
-  },
-  {
-    id: 2, brand: "Toyota", model: "Alphard", year: 2023, price: 6800000,
-    country: "Япония", fuel: "Гибрид", engine: "2.5", mileage: 9000, body: "Минивэн",
-    img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80",
-  },
-  {
-    id: 3, brand: "Lexus", model: "LX 600", year: 2022, price: 9500000,
-    country: "Япония", fuel: "Бензин", engine: "3.5", mileage: 22000, body: "SUV",
-    img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80",
-  },
-  {
-    id: 4, brand: "Hyundai", model: "Palisade", year: 2023, price: 3900000,
-    country: "Корея", fuel: "Дизель", engine: "2.2", mileage: 14000, body: "SUV",
-    img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80",
-  },
-  {
-    id: 5, brand: "Kia", model: "Carnival", year: 2023, price: 3600000,
-    country: "Корея", fuel: "Дизель", engine: "2.2", mileage: 11000, body: "Минивэн",
-    img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80",
-  },
-  {
-    id: 6, brand: "BYD", model: "Han EV", year: 2024, price: 3200000,
+    id: 1, brand: "BYD", model: "Han EV", year: 2024, price: 3200000,
     country: "Китай", fuel: "Электро", engine: "0", mileage: 2000, body: "Седан",
     img: IMG_BYD,
   },
   {
-    id: 7, brand: "Li Auto", model: "L9", year: 2024, price: 4100000,
+    id: 2, brand: "Li Auto", model: "L9", year: 2024, price: 4100000,
     country: "Китай", fuel: "Гибрид", engine: "1.5", mileage: 5000, body: "SUV",
     img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80",
   },
   {
-    id: 8, brand: "Nissan", model: "Elgrand", year: 2022, price: 3400000,
-    country: "Япония", fuel: "Бензин", engine: "3.5", mileage: 31000, body: "Минивэн",
-    img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80",
+    id: 3, brand: "BYD", model: "Tang DM", year: 2024, price: 3800000,
+    country: "Китай", fuel: "Гибрид", engine: "2.0", mileage: 3000, body: "SUV",
+    img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80",
+  },
+  {
+    id: 4, brand: "Zeekr", model: "001", year: 2024, price: 3500000,
+    country: "Китай", fuel: "Электро", engine: "0", mileage: 1500, body: "Хэтчбек",
+    img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80",
+  },
+  {
+    id: 5, brand: "Chery", model: "Tiggo 8 Pro", year: 2024, price: 2600000,
+    country: "Китай", fuel: "Бензин", engine: "2.0", mileage: 8000, body: "SUV",
+    img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80",
+  },
+  {
+    id: 6, brand: "Geely", model: "Monjaro", year: 2024, price: 2900000,
+    country: "Китай", fuel: "Гибрид", engine: "2.0", mileage: 6000, body: "SUV",
+    img: IMG_LC300,
   },
 ];
 
 function Catalog() {
-  const [filters, setFilters] = useState({ country: "Все", body: "Все", fuel: "Все" });
+  const [filters, setFilters] = useState({ body: "Все", fuel: "Все" });
 
-  const countries = ["Все", "Япония", "Корея", "Китай"];
-  const bodies = ["Все", "SUV", "Минивэн", "Седан"];
-  const fuels = ["Все", "Бензин", "Дизель", "Гибрид", "Электро"];
+  const bodies = ["Все", "SUV", "Седан", "Хэтчбек"];
+  const fuels = ["Все", "Бензин", "Гибрид", "Электро"];
 
   const filtered = CARS
-    .filter((c) => filters.country === "Все" || c.country === filters.country)
     .filter((c) => filters.body === "Все" || c.body === filters.body)
     .filter((c) => filters.fuel === "Все" || c.fuel === filters.fuel);
 
-  const FilterBtn = ({ val, field }: { val: string; field: keyof typeof filters }) => (
+  const FilterBtn = ({ val, field }: { val: string; field: keyof typeof filters; }) => (
     <button
       onClick={() => setFilters((f) => ({ ...f, [field]: val }))}
       className={`font-golos text-xs px-4 py-2 tracking-wide transition-all duration-200 whitespace-nowrap ${
@@ -395,10 +383,6 @@ function Catalog() {
           className="flex flex-wrap gap-x-8 gap-y-3 mb-10 pb-8"
           style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
         >
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="font-golos text-[10px] text-white/25 tracking-widest uppercase">Страна:</span>
-            {countries.map((c) => <FilterBtn key={c} val={c} field="country" />)}
-          </div>
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-golos text-[10px] text-white/25 tracking-widest uppercase">Кузов:</span>
             {bodies.map((b) => <FilterBtn key={b} val={b} field="body" />)}
