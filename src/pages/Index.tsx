@@ -1,238 +1,375 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
-const HERO_IMAGE = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/bb087ee4-6cbd-44ba-9c31-b9afd0767cbb.jpg";
-const SHOWROOM_IMAGE = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/fcc626c8-efdc-4f8b-833f-ff32f3856693.jpg";
-const PORT_IMAGE = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/1eb53d49-9ca9-4208-a2bf-13ced9658b19.jpg";
+const IMG_HERO = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/90a11541-21ea-492b-938f-9a05fd90709d.jpg";
+const IMG_PORT = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/1eb53d49-9ca9-4208-a2bf-13ced9658b19.jpg";
+const IMG_LC300 = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/d267ba81-6c15-4c1e-942f-ee87805b87d9.jpg";
+const IMG_BYD = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/ca535c54-57ac-4752-bfeb-4789b2a88c28.jpg";
+const IMG_SHOWROOM = "https://cdn.poehali.dev/projects/bf8004b3-828c-477e-8c76-7b3dec40f973/files/fcc626c8-efdc-4f8b-833f-ff32f3856693.jpg";
 
-// ── NAVIGATION ──────────────────────────────────────────────────────────────
+// ── NAVBAR ───────────────────────────────────────────────────────────────────
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const fn = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
   const links = [
-    { label: "Каталог", href: "#catalog" },
-    { label: "Услуги", href: "#services" },
-    { label: "Калькулятор", href: "#calculator" },
     { label: "О нас", href: "#about" },
+    { label: "Каталог", href: "#catalog" },
+    { label: "Процесс", href: "#process" },
+    { label: "Калькулятор", href: "#calculator" },
     { label: "Блог", href: "#blog" },
     { label: "FAQ", href: "#faq" },
-    { label: "Контакты", href: "#contacts" },
   ];
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      className="fixed top-0 inset-x-0 z-50 transition-all duration-500"
       style={{
-        background: scrolled ? "rgba(8,8,8,0.97)" : "transparent",
-        borderBottom: scrolled ? "1px solid rgba(139,0,0,0.2)" : "none",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
+        background: scrolled ? "rgba(5,5,5,0.97)" : "transparent",
+        borderBottom: scrolled ? "1px solid rgba(139,0,0,0.25)" : "none",
+        backdropFilter: scrolled ? "blur(24px)" : "none",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#8B0000] flex items-center justify-center">
-            <Icon name="Car" size={16} className="text-white" />
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <a href="#home" className="flex items-center gap-2.5 group">
+          <div
+            className="w-9 h-9 flex items-center justify-center transition-all duration-300 group-hover:bg-[#a80000]"
+            style={{ background: "#8B0000" }}
+          >
+            <Icon name="Car" size={17} className="text-white" />
           </div>
-          <span className="font-cormorant text-xl font-semibold text-white tracking-wider">
-            AUTO<span className="text-[#8B0000]">IMPORT</span>
-          </span>
-        </div>
+          <div className="leading-none">
+            <span className="font-cormorant text-xl font-bold text-white tracking-widest">VOZIM</span>
+            <span className="font-cormorant text-xl font-light text-[#8B0000] tracking-widest"> AUTO</span>
+          </div>
+        </a>
 
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-7">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="nav-link">
-              {l.label}
-            </a>
+            <a key={l.href} href={l.href} className="nav-link">{l.label}</a>
           ))}
         </nav>
 
-        <a href="#contacts" className="hidden lg:block btn-crimson text-sm">
-          Получить консультацию
-        </a>
+        <div className="hidden lg:flex items-center gap-3">
+          <a
+            href="https://t.me/VvozimAuto"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-ghost text-sm py-2 px-5 flex items-center gap-2"
+          >
+            <Icon name="Send" size={14} />
+            Telegram
+          </a>
+          <a href="tel:+79958699767" className="btn-crimson text-sm py-2 px-5">
+            +7 995-869-97-67
+          </a>
+        </div>
 
-        <button
-          className="lg:hidden text-white"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <Icon name={menuOpen ? "X" : "Menu"} size={22} />
+        <button className="lg:hidden text-white p-1" onClick={() => setOpen(!open)}>
+          <Icon name={open ? "X" : "Menu"} size={22} />
         </button>
       </div>
 
-      {menuOpen && (
+      {open && (
         <div
-          className="lg:hidden border-t"
-          style={{ background: "rgba(8,8,8,0.98)", borderColor: "rgba(139,0,0,0.2)" }}
+          className="lg:hidden border-t px-6 py-5 flex flex-col gap-4"
+          style={{ background: "rgba(5,5,5,0.99)", borderColor: "rgba(139,0,0,0.2)" }}
         >
-          <div className="px-6 py-4 flex flex-col gap-4">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="nav-link text-base"
-                onClick={() => setMenuOpen(false)}
-              >
-                {l.label}
-              </a>
-            ))}
-            <a href="#contacts" className="btn-crimson text-sm text-center mt-2">
-              Консультация
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="nav-link text-base" onClick={() => setOpen(false)}>
+              {l.label}
             </a>
-          </div>
+          ))}
+          <a href="tel:+79958699767" className="btn-crimson text-center text-sm mt-1">
+            +7 995-869-97-67
+          </a>
+          <a href="tel:+79332828974" className="btn-ghost text-center text-sm">
+            +7 933-282-89-74
+          </a>
         </div>
       )}
     </header>
   );
 }
 
-// ── HERO ────────────────────────────────────────────────────────────────────
+// ── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center overflow-hidden"
-    >
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${HERO_IMAGE})` }}
+        className="absolute inset-0 bg-cover bg-center scale-105"
+        style={{ backgroundImage: `url(${IMG_HERO})`, transform: "scale(1.05)" }}
       />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.75) 50%, rgba(50,0,0,0.7) 100%)" }} />
       <div
-        className="absolute bottom-0 left-0 right-0 h-40"
-        style={{ background: "linear-gradient(to top, #080808, transparent)" }}
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(120deg, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.8) 55%, rgba(80,0,0,0.6) 100%)" }}
       />
+      <div className="absolute bottom-0 inset-x-0 h-48" style={{ background: "linear-gradient(to top, #080808, transparent)" }} />
 
-      <div className="absolute top-1/3 right-1/4 w-px h-40 bg-gradient-to-b from-transparent via-[#8B0000] to-transparent opacity-60" />
-      <div className="absolute top-1/4 right-1/3 w-px h-20 bg-gradient-to-b from-transparent via-[#8B0000] to-transparent opacity-30" />
+      {/* Декоративные линии */}
+      <div className="absolute right-[15%] top-[25%] w-px h-52 bg-gradient-to-b from-transparent via-[#8B0000]/60 to-transparent" />
+      <div className="absolute right-[22%] top-[35%] w-px h-28 bg-gradient-to-b from-transparent via-[#8B0000]/30 to-transparent" />
+      <div className="absolute left-0 top-1/2 w-24 h-px bg-gradient-to-r from-transparent to-[#8B0000]/40" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24">
-        <div className="max-w-3xl">
-          <p
-            className="section-subtitle mb-6 opacity-0 animate-fade-in"
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 w-full">
+        <div className="max-w-2xl">
+          <div
+            className="inline-flex items-center gap-3 mb-8 opacity-0 animate-fade-in"
             style={{ animationFillMode: "forwards" }}
           >
-            Премиальный импорт автомобилей
-          </p>
+            <div className="w-8 h-px bg-[#8B0000]" />
+            <span className="section-subtitle">Привоз авто из Японии, Кореи и Китая</span>
+          </div>
 
           <h1
-            className="font-cormorant text-6xl md:text-8xl font-light text-white leading-none mb-6 opacity-0 animate-fade-in animate-delay-200"
+            className="font-cormorant text-7xl md:text-[90px] font-light text-white leading-[0.9] mb-8 opacity-0 animate-fade-in animate-delay-200"
             style={{ animationFillMode: "forwards" }}
           >
-            Авто из
+            Везём авто
             <br />
-            <span className="italic text-[#8B0000]">любой точки</span>
+            <span className="italic text-[#8B0000]">под ключ</span>
             <br />
-            мира
+            во Владивосток
           </h1>
 
           <p
-            className="font-golos text-white/60 text-lg max-w-xl leading-relaxed mb-10 opacity-0 animate-fade-in animate-delay-300"
+            className="font-golos text-white/55 text-lg leading-relaxed max-w-lg mb-10 opacity-0 animate-fade-in animate-delay-300"
             style={{ animationFillMode: "forwards" }}
           >
-            Привезём ваш автомобиль из Европы, США, Японии и Китая. Полное
-            таможенное сопровождение, страховка и доставка до двери.
+            Покупка, доставка, таможня, постановка на учёт — берём на себя весь
+            процесс. Работаем с Японией, Кореей и Китаем.
           </p>
 
           <div
-            className="flex flex-wrap gap-4 opacity-0 animate-fade-in animate-delay-400"
+            className="flex flex-wrap gap-4 mb-16 opacity-0 animate-fade-in animate-delay-400"
             style={{ animationFillMode: "forwards" }}
           >
-            <a href="#catalog" className="btn-crimson">
-              Смотреть каталог
-            </a>
-            <a href="#calculator" className="btn-ghost">
-              Рассчитать стоимость
-            </a>
+            <a href="#catalog" className="btn-crimson text-sm">Смотреть каталог</a>
+            <a href="#calculator" className="btn-ghost text-sm">Рассчитать стоимость</a>
           </div>
 
           <div
-            className="flex gap-12 mt-16 opacity-0 animate-fade-in animate-delay-500"
+            className="grid grid-cols-3 gap-8 max-w-sm opacity-0 animate-fade-in animate-delay-500"
             style={{ animationFillMode: "forwards" }}
           >
             {[
-              { num: "1200+", label: "Авто привезено" },
-              { num: "8 лет", label: "На рынке" },
-              { num: "99%", label: "Довольных клиентов" },
+              { n: "500+", l: "Авто привезено" },
+              { n: "5 лет", l: "На рынке" },
+              { n: "24/7", l: "Поддержка" },
             ].map((s) => (
-              <div key={s.label}>
-                <p className="font-cormorant text-4xl font-light text-white">{s.num}</p>
-                <p className="font-golos text-xs text-white/40 tracking-wider mt-1">{s.label}</p>
+              <div key={s.l} className="border-l border-[#8B0000]/40 pl-4">
+                <p className="font-cormorant text-3xl text-white font-light">{s.n}</p>
+                <p className="font-golos text-[10px] text-white/35 tracking-widest mt-0.5 uppercase">{s.l}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-        <span className="font-golos text-xs text-white tracking-widest">SCROLL</span>
-        <div className="w-px h-12 bg-gradient-to-b from-white to-transparent" />
+      {/* Города */}
+      <div className="absolute bottom-12 right-8 hidden lg:flex flex-col items-end gap-1.5">
+        {["Владивосток", "Новосибирск", "Москва", "По всей России"].map((c, i) => (
+          <span
+            key={c}
+            className="font-golos text-xs text-white/20 tracking-widest"
+            style={{ opacity: 1 - i * 0.2 }}
+          >
+            {c}
+          </span>
+        ))}
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-30">
+        <div className="w-px h-14 bg-gradient-to-b from-white to-transparent" />
+        <span className="font-golos text-[9px] tracking-[0.4em] text-white">SCROLL</span>
       </div>
     </section>
   );
 }
 
-// ── CATALOG ─────────────────────────────────────────────────────────────────
-const CATALOG_CARS = [
+// ── ROUTES STRIP ─────────────────────────────────────────────────────────────
+function RoutesStrip() {
+  const routes = [
+    { from: "🇯🇵 Япония", arrow: "→", to: "Владивосток", time: "2–3 нед." },
+    { from: "🇰🇷 Корея", arrow: "→", to: "Владивосток", time: "1–2 нед." },
+    { from: "🇨🇳 Китай", arrow: "→", to: "Владивосток", time: "1–2 нед." },
+    { from: "🇯🇵 Япония", arrow: "→", to: "Любой город РФ", time: "4–6 нед." },
+  ];
+
+  return (
+    <div style={{ background: "#8B0000" }}>
+      <div className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {routes.map((r) => (
+          <div key={r.from + r.to} className="flex items-center gap-3">
+            <div>
+              <p className="font-golos text-white text-sm font-medium">
+                {r.from} {r.arrow} {r.to}
+              </p>
+              <p className="font-golos text-white/60 text-xs">{r.time}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── ABOUT ────────────────────────────────────────────────────────────────────
+function About() {
+  const stats = [
+    { icon: "Car", n: "500+", l: "Привезённых авто" },
+    { icon: "Users", n: "480+", l: "Довольных клиентов" },
+    { icon: "Globe", n: "3", l: "Страны-поставщики" },
+    { icon: "Award", n: "5 лет", l: "На рынке" },
+  ];
+
+  return (
+    <section id="about" className="py-28" style={{ background: "#080808" }}>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-px bg-[#8B0000]" />
+              <span className="section-subtitle">Кто мы</span>
+            </div>
+            <h2 className="section-title mb-6">
+              VOZIM AUTO —<br />
+              <span className="italic text-[#8B0000]">ваш надёжный</span>
+              <br />партнёр
+            </h2>
+            <p className="font-golos text-white/55 leading-relaxed mb-5">
+              Мы специализируемся на привозе автомобилей из Японии, Кореи и Китая
+              во Владивосток и другие регионы России. Работаем полностью под ключ —
+              от поиска авто до передачи ключей клиенту.
+            </p>
+            <p className="font-golos text-white/55 leading-relaxed mb-8">
+              Наши офисы расположены во Владивостоке и Новосибирске. Онлайн
+              консультации доступны для всей России — вам не нужно никуда ехать.
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://t.me/VvozimAuto"
+                target="_blank"
+                rel="noreferrer"
+                className="btn-crimson text-sm flex items-center gap-2"
+              >
+                <Icon name="Send" size={14} />
+                Написать менеджеру
+              </a>
+              <a href="#process" className="btn-ghost text-sm">Как мы работаем</a>
+            </div>
+          </div>
+
+          <div className="relative">
+            <img
+              src={IMG_PORT}
+              alt="Доставка авто"
+              className="w-full h-80 object-cover"
+              style={{ border: "1px solid rgba(139,0,0,0.25)" }}
+            />
+            <div
+              className="absolute -bottom-5 -right-5 p-5 hidden md:block"
+              style={{ background: "#8B0000" }}
+            >
+              <p className="font-cormorant text-4xl text-white font-light">500+</p>
+              <p className="font-golos text-xs text-white/70 tracking-widest uppercase">авто привезено</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20">
+          {stats.map((s) => (
+            <div
+              key={s.l}
+              className="card-dark p-6 flex flex-col items-center text-center"
+            >
+              <div
+                className="w-10 h-10 flex items-center justify-center mb-4"
+                style={{ background: "rgba(139,0,0,0.12)", border: "1px solid rgba(139,0,0,0.3)" }}
+              >
+                <Icon name={s.icon} fallback="Star" size={18} className="text-[#8B0000]" />
+              </div>
+              <p className="font-cormorant text-3xl text-white font-light">{s.n}</p>
+              <p className="font-golos text-xs text-white/35 tracking-wider mt-1 uppercase">{s.l}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── CATALOG ───────────────────────────────────────────────────────────────────
+const CARS = [
   {
-    id: 1, brand: "BMW", model: "5 Series", year: 2023, price: 6800000,
-    country: "Германия", fuel: "Бензин", engine: "2.0", mileage: 12000, body: "Седан",
-    img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80",
+    id: 1, brand: "Toyota", model: "Land Cruiser 300", year: 2022, price: 7200000,
+    country: "Япония", fuel: "Дизель", engine: "3.3", mileage: 18000, body: "SUV",
+    img: IMG_LC300,
   },
   {
-    id: 2, brand: "Mercedes", model: "GLE 450", year: 2023, price: 9200000,
-    country: "Германия", fuel: "Дизель", engine: "3.0", mileage: 8000, body: "SUV",
-    img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80",
-  },
-  {
-    id: 3, brand: "Porsche", model: "Cayenne", year: 2022, price: 11500000,
-    country: "Германия", fuel: "Бензин", engine: "3.0", mileage: 20000, body: "SUV",
-    img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80",
-  },
-  {
-    id: 4, brand: "Toyota", model: "Land Cruiser 300", year: 2023, price: 8900000,
-    country: "Япония", fuel: "Дизель", engine: "3.3", mileage: 5000, body: "SUV",
-    img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80",
-  },
-  {
-    id: 5, brand: "Lexus", model: "LX 600", year: 2022, price: 10300000,
-    country: "Япония", fuel: "Бензин", engine: "3.5", mileage: 15000, body: "SUV",
+    id: 2, brand: "Toyota", model: "Alphard", year: 2023, price: 6800000,
+    country: "Япония", fuel: "Гибрид", engine: "2.5", mileage: 9000, body: "Минивэн",
     img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80",
   },
   {
-    id: 6, brand: "Audi", model: "Q8", year: 2023, price: 8400000,
-    country: "Германия", fuel: "Бензин", engine: "3.0", mileage: 9000, body: "SUV",
+    id: 3, brand: "Lexus", model: "LX 600", year: 2022, price: 9500000,
+    country: "Япония", fuel: "Бензин", engine: "3.5", mileage: 22000, body: "SUV",
+    img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80",
+  },
+  {
+    id: 4, brand: "Hyundai", model: "Palisade", year: 2023, price: 3900000,
+    country: "Корея", fuel: "Дизель", engine: "2.2", mileage: 14000, body: "SUV",
+    img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80",
+  },
+  {
+    id: 5, brand: "Kia", model: "Carnival", year: 2023, price: 3600000,
+    country: "Корея", fuel: "Дизель", engine: "2.2", mileage: 11000, body: "Минивэн",
+    img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80",
+  },
+  {
+    id: 6, brand: "BYD", model: "Han EV", year: 2024, price: 3200000,
+    country: "Китай", fuel: "Электро", engine: "0", mileage: 2000, body: "Седан",
+    img: IMG_BYD,
+  },
+  {
+    id: 7, brand: "Li Auto", model: "L9", year: 2024, price: 4100000,
+    country: "Китай", fuel: "Гибрид", engine: "1.5", mileage: 5000, body: "SUV",
     img: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80",
+  },
+  {
+    id: 8, brand: "Nissan", model: "Elgrand", year: 2022, price: 3400000,
+    country: "Япония", fuel: "Бензин", engine: "3.5", mileage: 31000, body: "Минивэн",
+    img: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80",
   },
 ];
 
 function Catalog() {
-  const [filters, setFilters] = useState({ country: "Все", body: "Все", fuel: "Все", sort: "price_asc" });
+  const [filters, setFilters] = useState({ country: "Все", body: "Все", fuel: "Все" });
 
-  const countries = ["Все", "Германия", "Япония", "США"];
-  const bodies = ["Все", "Седан", "SUV", "Купе"];
+  const countries = ["Все", "Япония", "Корея", "Китай"];
+  const bodies = ["Все", "SUV", "Минивэн", "Седан"];
   const fuels = ["Все", "Бензин", "Дизель", "Гибрид", "Электро"];
 
-  const filtered = CATALOG_CARS
+  const filtered = CARS
     .filter((c) => filters.country === "Все" || c.country === filters.country)
     .filter((c) => filters.body === "Все" || c.body === filters.body)
-    .filter((c) => filters.fuel === "Все" || c.fuel === filters.fuel)
-    .sort((a, b) =>
-      filters.sort === "price_asc" ? a.price - b.price : b.price - a.price
-    );
+    .filter((c) => filters.fuel === "Все" || c.fuel === filters.fuel);
 
   const FilterBtn = ({ val, field }: { val: string; field: keyof typeof filters }) => (
     <button
       onClick={() => setFilters((f) => ({ ...f, [field]: val }))}
-      className={`font-golos text-xs px-4 py-2 tracking-wide transition-all duration-200 ${
+      className={`font-golos text-xs px-4 py-2 tracking-wide transition-all duration-200 whitespace-nowrap ${
         filters[field] === val
           ? "bg-[#8B0000] text-white border border-[#8B0000]"
-          : "bg-transparent text-white/50 border border-white/10 hover:border-white/30 hover:text-white/80"
+          : "text-white/40 border border-white/10 hover:border-white/25 hover:text-white/70"
       }`}
     >
       {val}
@@ -240,351 +377,379 @@ function Catalog() {
   );
 
   return (
-    <section id="catalog" className="py-24" style={{ background: "#080808" }}>
+    <section id="catalog" className="py-28" style={{ background: "#060606" }}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-14">
-          <p className="section-subtitle mb-3">Доступные автомобили</p>
-          <h2 className="section-title">Каталог</h2>
+        <div className="flex items-end justify-between mb-12">
+          <div>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-px bg-[#8B0000]" />
+              <span className="section-subtitle">В наличии и под заказ</span>
+            </div>
+            <h2 className="section-title">Каталог</h2>
+          </div>
+          <a href="#contacts" className="btn-ghost text-sm hidden md:block">Под заказ →</a>
         </div>
 
-        <div className="flex flex-wrap gap-4 mb-10 pb-8" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <div className="flex flex-wrap gap-2">
-            <span className="font-golos text-xs text-white/30 py-2 mr-2 tracking-widest">СТРАНА:</span>
+        {/* Фильтры */}
+        <div
+          className="flex flex-wrap gap-x-8 gap-y-3 mb-10 pb-8"
+          style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+        >
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-golos text-[10px] text-white/25 tracking-widest uppercase">Страна:</span>
             {countries.map((c) => <FilterBtn key={c} val={c} field="country" />)}
           </div>
-          <div className="flex flex-wrap gap-2">
-            <span className="font-golos text-xs text-white/30 py-2 mr-2 tracking-widest">КУЗОВ:</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-golos text-[10px] text-white/25 tracking-widest uppercase">Кузов:</span>
             {bodies.map((b) => <FilterBtn key={b} val={b} field="body" />)}
           </div>
-          <div className="flex flex-wrap gap-2">
-            <span className="font-golos text-xs text-white/30 py-2 mr-2 tracking-widest">ТОПЛИВО:</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-golos text-[10px] text-white/25 tracking-widest uppercase">Топливо:</span>
             {fuels.map((f) => <FilterBtn key={f} val={f} field="fuel" />)}
-          </div>
-          <div className="flex gap-2 ml-auto">
-            <span className="font-golos text-xs text-white/30 py-2 mr-2 tracking-widest">СОРТИРОВКА:</span>
-            <FilterBtn val="price_asc" field="sort" />
-            <FilterBtn val="price_desc" field="sort" />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {filtered.map((car) => (
             <div key={car.id} className="card-dark group cursor-pointer overflow-hidden">
-              <div className="relative h-52 overflow-hidden">
+              <div className="relative h-48 overflow-hidden">
                 <img
                   src={car.img}
                   alt={`${car.brand} ${car.model}`}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(8,8,8,0.8), transparent)" }} />
-                <div className="absolute top-3 right-3 bg-[#8B0000] px-2 py-1">
-                  <span className="font-golos text-xs text-white">{car.country}</span>
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(5,5,5,0.85), transparent 60%)" }} />
+                <div
+                  className="absolute top-2.5 right-2.5 px-2 py-0.5"
+                  style={{ background: "#8B0000" }}
+                >
+                  <span className="font-golos text-[10px] text-white tracking-wider">{car.country}</span>
                 </div>
-                <div className="absolute bottom-3 left-3">
-                  <span className="font-golos text-xs text-white/50">{car.year} • {car.mileage.toLocaleString()} км</span>
-                </div>
-              </div>
-              <div className="p-5">
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h3 className="font-cormorant text-2xl text-white font-light">{car.brand}</h3>
-                    <p className="font-golos text-sm text-white/50">{car.model}</p>
+                {car.fuel === "Электро" && (
+                  <div
+                    className="absolute top-2.5 left-2.5 px-2 py-0.5"
+                    style={{ background: "rgba(0,180,100,0.85)" }}
+                  >
+                    <span className="font-golos text-[10px] text-white tracking-wider">EV</span>
                   </div>
-                  <p className="font-cormorant text-xl text-[#8B0000]">
-                    {(car.price / 1000000).toFixed(1)} млн ₽
-                  </p>
+                )}
+              </div>
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-1">
+                  <div>
+                    <p className="font-golos text-[10px] text-white/30 tracking-widest uppercase">{car.year} • {car.mileage.toLocaleString()} км</p>
+                    <h3 className="font-cormorant text-xl text-white font-light mt-0.5">
+                      {car.brand} <span className="text-white/70">{car.model}</span>
+                    </h3>
+                  </div>
                 </div>
-                <div className="flex gap-3 flex-wrap">
-                  {[car.engine + "L", car.fuel, car.body].map((tag) => (
-                    <span key={tag} className="font-golos text-xs text-white/40 border border-white/10 px-2 py-1">
-                      {tag}
+                <div className="flex gap-1.5 flex-wrap mb-3 mt-2">
+                  {[car.engine !== "0" ? car.engine + "L" : "Электро", car.fuel, car.body].map((t) => (
+                    <span key={t} className="font-golos text-[10px] text-white/35 border border-white/8 px-2 py-0.5">
+                      {t}
                     </span>
                   ))}
                 </div>
-                <button className="btn-crimson w-full mt-4 text-sm">
-                  Узнать детали
-                </button>
+                <div className="flex items-center justify-between">
+                  <p className="font-cormorant text-xl text-[#8B0000]">
+                    {(car.price / 1000000).toFixed(1)} млн ₽
+                  </p>
+                  <a
+                    href="https://t.me/VvozimAuto"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-golos text-xs text-white/50 hover:text-white transition-colors flex items-center gap-1"
+                  >
+                    Спросить <Icon name="ArrowRight" size={11} />
+                  </a>
+                </div>
               </div>
             </div>
           ))}
-        </div>
 
-        {filtered.length === 0 && (
-          <div className="text-center py-20">
-            <Icon name="Search" size={40} className="text-white/20 mx-auto mb-4" />
-            <p className="font-golos text-white/40">Нет автомобилей по выбранным фильтрам</p>
-          </div>
-        )}
+          {filtered.length === 0 && (
+            <div className="col-span-4 py-16 text-center">
+              <Icon name="Search" size={36} className="text-white/15 mx-auto mb-3" />
+              <p className="font-golos text-white/30 text-sm">Нет автомобилей по выбранным фильтрам</p>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
 }
 
-// ── SERVICES ────────────────────────────────────────────────────────────────
-function Services() {
-  const services = [
+// ── PROCESS ───────────────────────────────────────────────────────────────────
+function Process() {
+  const steps = [
     {
-      icon: "Ship",
-      title: "Международная доставка",
-      desc: "Организуем транспортировку автомобиля из любой точки мира морем, воздухом или по суше. Отслеживание груза в реальном времени.",
-      features: ["Европа: 2–4 недели", "США/Япония: 6–8 недель", "Страхование груза"],
+      n: "01",
+      icon: "MessageCircle",
+      title: "Заявка",
+      desc: "Пишете нам в Telegram или звоните. Рассказываете, какое авто хотите — марка, бюджет, пожелания.",
     },
     {
-      icon: "FileText",
-      title: "Таможенное оформление",
-      desc: "Берём на себя весь процесс растаможки. Работаем по прозрачным ценам без скрытых платежей.",
-      features: ["Расчёт пошлин заранее", "Все документы под ключ", "Постановка на учёт"],
-    },
-    {
-      icon: "Shield",
-      title: "Страховка и гарантии",
-      desc: "Страхуем автомобиль на весь путь. Гарантируем сохранность и доставку в срок.",
-      features: ["КАСКО на перевозку", "Гарантия сроков", "Компенсация при задержке"],
-    },
-    {
+      n: "02",
       icon: "Search",
-      title: "Подбор автомобиля",
-      desc: "Поможем найти идеальный вариант по вашим параметрам на зарубежных аукционах и площадках.",
-      features: ["Аукционы Японии/США", "Европейские дилеры", "Проверка истории"],
+      title: "Подбор",
+      desc: "Находим варианты на японских, корейских и китайских аукционах. Присылаем фото, историю, отчёт о состоянии.",
+    },
+    {
+      n: "03",
+      icon: "CreditCard",
+      title: "Оплата",
+      desc: "Вносите предоплату. Покупаем авто на аукционе — работаем без накрутки аукционной цены.",
+    },
+    {
+      n: "04",
+      icon: "Ship",
+      title: "Доставка",
+      desc: "Грузим на судно и отправляем во Владивосток. Вы отслеживаете статус онлайн.",
+    },
+    {
+      n: "05",
+      icon: "FileText",
+      title: "Таможня",
+      desc: "Берём таможню на себя. Все пошлины рассчитаны заранее — никаких сюрпризов.",
+    },
+    {
+      n: "06",
+      icon: "Key",
+      title: "Передача",
+      desc: "Ставим на учёт и передаём вам ключи. Или отправляем в ваш город.",
     },
   ];
 
   return (
-    <section
-      id="services"
-      className="py-24 relative"
-      style={{ background: "#0a0a0a" }}
-    >
+    <section id="process" className="py-28 relative overflow-hidden" style={{ background: "#080808" }}>
       <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `url(${PORT_IMAGE})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "grayscale(100%)",
-        }}
+        className="absolute inset-0 opacity-5"
+        style={{ backgroundImage: `url(${IMG_SHOWROOM})`, backgroundSize: "cover", backgroundPosition: "center", filter: "grayscale(100%)" }}
       />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(8,8,8,0.98) 0%, rgba(8,8,8,0.85) 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "rgba(8,8,8,0.96)" }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="mb-14">
-          <p className="section-subtitle mb-3">Что мы делаем</p>
-          <h2 className="section-title">Наши услуги</h2>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-px bg-[#8B0000]" />
+          <span className="section-subtitle">Просто и прозрачно</span>
         </div>
+        <h2 className="section-title mb-14">Процесс работы</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((s) => (
-            <div key={s.title} className="card-dark p-8">
-              <div className="flex items-start gap-5">
-                <div
-                  className="w-12 h-12 flex items-center justify-center flex-shrink-0"
-                  style={{ background: "rgba(139,0,0,0.15)", border: "1px solid rgba(139,0,0,0.3)" }}
-                >
-                  <Icon name={s.icon} fallback="Star" size={20} className="text-[#8B0000]" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {steps.map((s, i) => (
+            <div
+              key={s.n}
+              className="card-dark p-7 relative group"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <div className="flex items-start gap-4">
+                <div>
+                  <span
+                    className="font-cormorant text-5xl font-light leading-none"
+                    style={{ color: "rgba(139,0,0,0.2)" }}
+                  >
+                    {s.n}
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-cormorant text-2xl text-white mb-2 font-light">{s.title}</h3>
-                  <p className="font-golos text-sm text-white/50 leading-relaxed mb-4">{s.desc}</p>
-                  <ul className="space-y-2">
-                    {s.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2">
-                        <div className="w-1 h-1 rounded-full bg-[#8B0000]" />
-                        <span className="font-golos text-xs text-white/60">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="flex-1 pt-1">
+                  <div
+                    className="w-9 h-9 flex items-center justify-center mb-3"
+                    style={{ background: "rgba(139,0,0,0.12)", border: "1px solid rgba(139,0,0,0.3)" }}
+                  >
+                    <Icon name={s.icon} fallback="Star" size={16} className="text-[#8B0000]" />
+                  </div>
+                  <h3 className="font-cormorant text-2xl text-white font-light mb-2">{s.title}</h3>
+                  <p className="font-golos text-sm text-white/45 leading-relaxed">{s.desc}</p>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <a href="https://t.me/VozimAutoChat" target="_blank" rel="noreferrer" className="btn-crimson inline-flex items-center gap-2 text-sm">
+            <Icon name="Send" size={15} />
+            Начать — написать в Telegram
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
-// ── CALCULATOR ──────────────────────────────────────────────────────────────
+// ── CALCULATOR ────────────────────────────────────────────────────────────────
 function Calculator() {
-  const [form, setForm] = useState({
-    country: "germany",
-    carType: "sedan",
-    engineVol: "2.0",
-    age: "new",
-    price: 3000000,
-  });
-
-  const set = (k: string, v: string | number) => setForm((f) => ({ ...f, [k]: v }));
-
-  const CUSTOM_DUTY: Record<string, Record<string, number>> = {
-    new: { "1.0": 0.15, "1.6": 0.17, "2.0": 0.18, "3.0": 0.20, "3.0+": 0.22 },
-    "3_5": { "1.0": 0.20, "1.6": 0.22, "2.0": 0.24, "3.0": 0.26, "3.0+": 0.28 },
-    "5_7": { "1.0": 0.25, "1.6": 0.27, "2.0": 0.29, "3.0": 0.31, "3.0+": 0.33 },
-    "7+": { "1.0": 0.30, "1.6": 0.32, "2.0": 0.35, "3.0": 0.38, "3.0+": 0.40 },
-  };
+  const [country, setCountry] = useState("japan");
+  const [engine, setEngine] = useState("2.0");
+  const [age, setAge] = useState("new");
+  const [price, setPrice] = useState(2500000);
 
   const DELIVERY: Record<string, number> = {
-    germany: 180000, usa: 350000, japan: 290000, china: 120000,
+    japan: 180000, korea: 120000, china: 90000,
   };
 
-  const EXCISE: Record<string, number> = {
-    "1.0": 45, "1.6": 87, "2.0": 107, "3.0": 150, "3.0+": 214,
+  const DELIVERY_EXTRA = 80000;
+
+  const DUTY: Record<string, Record<string, number>> = {
+    new: { "1.0": 0.54, "1.6": 0.48, "2.0": 0.48, "3.0": 0.50, "3.0+": 0.57 },
+    "3_5": { "1.0": 0.32, "1.6": 0.32, "2.0": 0.32, "3.0": 0.32, "3.0+": 0.32 },
+    "5_7": { "1.0": 0.32, "1.6": 0.32, "2.0": 0.32, "3.0": 0.32, "3.0+": 0.32 },
+    "7+": { "1.0": 0.25, "1.6": 0.25, "2.0": 0.25, "3.0": 0.25, "3.0+": 0.25 },
   };
 
-  const engineKey = form.engineVol as keyof typeof EXCISE;
-  const ageKey = form.age as keyof typeof CUSTOM_DUTY;
-
-  const delivery = DELIVERY[form.country] || 200000;
-  const duty = Math.round(form.price * (CUSTOM_DUTY[ageKey]?.[engineKey] ?? 0.18));
-  const excise = EXCISE[engineKey] * 1.8 * 12 * 10;
-  const vat = Math.round((form.price + duty + excise) * 0.2);
+  const delivery = DELIVERY[country] ?? 150000;
+  const dutyRate = DUTY[age]?.[engine] ?? 0.48;
+  const duty = Math.round(price * dutyRate);
+  const recycling = age === "new" ? 3400 : 5200;
   const sbor = 7500;
-  const customs = duty + excise + vat + sbor;
-  const total = form.price + delivery + customs;
+  const customs = duty + recycling + sbor;
+  const commission = Math.round(price * 0.05);
+  const total = price + delivery + DELIVERY_EXTRA + customs + commission;
 
-  const breakdown = [
-    { label: "Стоимость авто", value: form.price },
-    { label: "Доставка", value: delivery },
-    { label: "Таможенная пошлина", value: duty },
-    { label: "Акцизный сбор", value: excise },
-    { label: "НДС (20%)", value: vat },
-    { label: "Таможенный сбор", value: sbor },
-  ];
-
-  const fmtRub = (n: number) =>
+  const fmt = (n: number) =>
     new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 }).format(n);
 
-  return (
-    <section id="calculator" className="py-24" style={{ background: "#080808" }}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-14">
-          <p className="section-subtitle mb-3">Интерактивный расчёт</p>
-          <h2 className="section-title">Калькулятор стоимости</h2>
-          <p className="font-golos text-white/40 mt-3 text-sm">
-            Предварительный расчёт. Точная стоимость — после консультации.
-          </p>
-        </div>
+  const breakdown = [
+    { label: "Стоимость авто на аукционе", val: price },
+    { label: "Доставка до Владивостока", val: delivery },
+    { label: "Доставка по России", val: DELIVERY_EXTRA },
+    { label: "Таможенная пошлина", val: duty },
+    { label: "Утилизационный сбор", val: recycling },
+    { label: "Таможенный сбор", val: sbor },
+    { label: "Наша комиссия (5%)", val: commission },
+  ];
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="card-dark p-8 space-y-6">
+  const Chip = ({
+    val, cur, label, onClick,
+  }: { val: string; cur: string; label: string; onClick: () => void }) => (
+    <button
+      onClick={onClick}
+      className={`py-2.5 px-4 font-golos text-sm text-left transition-all duration-200 ${
+        cur === val
+          ? "bg-[#8B0000] text-white border border-[#8B0000]"
+          : "text-white/45 border border-white/8 hover:border-white/25 hover:text-white/70"
+      }`}
+    >
+      {label}
+    </button>
+  );
+
+  return (
+    <section id="calculator" className="py-28" style={{ background: "#060606" }}>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-px bg-[#8B0000]" />
+          <span className="section-subtitle">Расчёт в реальном времени</span>
+        </div>
+        <h2 className="section-title mb-2">Калькулятор</h2>
+        <p className="font-golos text-white/30 text-sm mb-12">Предварительный расчёт. Точная сумма — после консультации.</p>
+
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* Параметры */}
+          <div className="lg:col-span-3 card-dark p-8 space-y-7">
             <div>
-              <label className="font-golos text-xs text-white/40 tracking-widest block mb-3">СТРАНА ПОКУПКИ</label>
-              <div className="grid grid-cols-2 gap-2">
+              <label className="font-golos text-[10px] text-white/30 tracking-[0.3em] uppercase block mb-3">Страна покупки</label>
+              <div className="grid grid-cols-3 gap-2">
                 {[
-                  { val: "germany", label: "🇩🇪 Германия" },
-                  { val: "usa", label: "🇺🇸 США" },
                   { val: "japan", label: "🇯🇵 Япония" },
+                  { val: "korea", label: "🇰🇷 Корея" },
                   { val: "china", label: "🇨🇳 Китай" },
                 ].map((c) => (
-                  <button
-                    key={c.val}
-                    onClick={() => set("country", c.val)}
-                    className={`py-3 px-4 font-golos text-sm transition-all duration-200 text-left ${
-                      form.country === c.val
-                        ? "bg-[#8B0000] text-white border border-[#8B0000]"
-                        : "bg-transparent text-white/50 border border-white/10 hover:border-white/30"
-                    }`}
-                  >
-                    {c.label}
-                  </button>
+                  <Chip key={c.val} val={c.val} cur={country} label={c.label} onClick={() => setCountry(c.val)} />
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="font-golos text-xs text-white/40 tracking-widest block mb-3">ОБЪЁМ ДВИГАТЕЛЯ</label>
+              <label className="font-golos text-[10px] text-white/30 tracking-[0.3em] uppercase block mb-3">Объём двигателя</label>
               <div className="grid grid-cols-5 gap-2">
-                {["1.0", "1.6", "2.0", "3.0", "3.0+"].map((v) => (
-                  <button
-                    key={v}
-                    onClick={() => set("engineVol", v)}
-                    className={`py-2 px-1 font-golos text-xs transition-all duration-200 ${
-                      form.engineVol === v
-                        ? "bg-[#8B0000] text-white border border-[#8B0000]"
-                        : "bg-transparent text-white/50 border border-white/10 hover:border-white/30"
-                    }`}
-                  >
-                    {v}L
-                  </button>
+                {[
+                  { val: "1.0", label: "до 1.0" },
+                  { val: "1.6", label: "1.0–1.6" },
+                  { val: "2.0", label: "1.6–2.0" },
+                  { val: "3.0", label: "2.0–3.0" },
+                  { val: "3.0+", label: "3.0+" },
+                ].map((e) => (
+                  <Chip key={e.val} val={e.val} cur={engine} label={e.label} onClick={() => setEngine(e.val)} />
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="font-golos text-xs text-white/40 tracking-widest block mb-3">ВОЗРАСТ АВТОМОБИЛЯ</label>
+              <label className="font-golos text-[10px] text-white/30 tracking-[0.3em] uppercase block mb-3">Возраст автомобиля</label>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { val: "new", label: "Новый (до 3 лет)" },
+                  { val: "new", label: "До 3 лет" },
                   { val: "3_5", label: "3–5 лет" },
                   { val: "5_7", label: "5–7 лет" },
                   { val: "7+", label: "Старше 7 лет" },
                 ].map((a) => (
-                  <button
-                    key={a.val}
-                    onClick={() => set("age", a.val)}
-                    className={`py-3 px-4 font-golos text-sm transition-all duration-200 text-left ${
-                      form.age === a.val
-                        ? "bg-[#8B0000] text-white border border-[#8B0000]"
-                        : "bg-transparent text-white/50 border border-white/10 hover:border-white/30"
-                    }`}
-                  >
-                    {a.label}
-                  </button>
+                  <Chip key={a.val} val={a.val} cur={age} label={a.label} onClick={() => setAge(a.val)} />
                 ))}
               </div>
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-3">
-                <label className="font-golos text-xs text-white/40 tracking-widest">СТОИМОСТЬ АВТО</label>
-                <span className="font-cormorant text-xl text-white">{fmtRub(form.price)}</span>
+                <label className="font-golos text-[10px] text-white/30 tracking-[0.3em] uppercase">Цена на аукционе</label>
+                <span className="font-cormorant text-2xl text-white">{fmt(price)}</span>
               </div>
               <input
                 type="range"
-                min={500000}
-                max={30000000}
-                step={100000}
-                value={form.price}
-                onChange={(e) => set("price", parseInt(e.target.value))}
-                className="w-full accent-[#8B0000]"
+                min={300000}
+                max={15000000}
+                step={50000}
+                value={price}
+                onChange={(e) => setPrice(+e.target.value)}
+                className="w-full"
                 style={{ accentColor: "#8B0000" }}
               />
               <div className="flex justify-between mt-1">
-                <span className="font-golos text-xs text-white/20">500 000 ₽</span>
-                <span className="font-golos text-xs text-white/20">30 000 000 ₽</span>
+                <span className="font-golos text-[10px] text-white/20">300 000 ₽</span>
+                <span className="font-golos text-[10px] text-white/20">15 000 000 ₽</span>
               </div>
             </div>
           </div>
 
-          <div className="card-dark p-8 flex flex-col justify-between" style={{ background: "#0f0f0f" }}>
+          {/* Результат */}
+          <div
+            className="lg:col-span-2 card-dark p-7 flex flex-col justify-between"
+            style={{ background: "#0d0d0d" }}
+          >
             <div>
-              <p className="section-subtitle mb-6">Результат расчёта</p>
-              <div className="space-y-4">
+              <p className="section-subtitle mb-6">Итоговый расчёт</p>
+              <div className="space-y-3">
                 {breakdown.map((b) => (
                   <div
                     key={b.label}
                     className="flex justify-between items-center pb-3"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+                    style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
                   >
-                    <span className="font-golos text-sm text-white/50">{b.label}</span>
-                    <span className="font-golos text-sm text-white">{fmtRub(b.value)}</span>
+                    <span className="font-golos text-xs text-white/40">{b.label}</span>
+                    <span className="font-golos text-sm text-white font-medium">{fmt(b.val)}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-6">
               <div
-                className="p-6 mb-6"
-                style={{ background: "rgba(139,0,0,0.1)", border: "1px solid rgba(139,0,0,0.3)" }}
+                className="p-5 mb-5"
+                style={{ background: "rgba(139,0,0,0.1)", border: "1px solid rgba(139,0,0,0.35)" }}
               >
-                <p className="font-golos text-xs text-white/40 tracking-widest mb-2">ИТОГО ПОД КЛЮЧ</p>
-                <p className="font-cormorant text-4xl text-white font-light">{fmtRub(total)}</p>
-                <p className="font-golos text-xs text-[#8B0000] mt-2">
-                  в т.ч. таможня {fmtRub(customs)} · доставка {fmtRub(delivery)}
+                <p className="font-golos text-[10px] text-white/35 tracking-[0.3em] uppercase mb-1.5">Под ключ во Владивостоке</p>
+                <p className="font-cormorant text-4xl text-white font-light">{fmt(total)}</p>
+                <p className="font-golos text-[10px] text-[#8B0000] mt-2">
+                  таможня {fmt(customs)} · доставка {fmt(delivery + DELIVERY_EXTRA)}
                 </p>
               </div>
-              <a href="#contacts" className="btn-crimson block text-center text-sm">
-                Получить точный расчёт
+              <a
+                href="https://t.me/VvozimAuto"
+                target="_blank"
+                rel="noreferrer"
+                className="btn-crimson block text-center text-sm"
+              >
+                Уточнить у менеджера
               </a>
             </div>
           </div>
@@ -594,169 +759,71 @@ function Calculator() {
   );
 }
 
-// ── ABOUT ───────────────────────────────────────────────────────────────────
-function About() {
-  const timeline = [
-    { year: "2016", event: "Основание компании. Первые 12 автомобилей из Германии." },
-    { year: "2018", event: "Открыли офисы в Берлине и Токио. 300+ авто в год." },
-    { year: "2020", event: "Запустили онлайн-калькулятор и личный кабинет клиента." },
-    { year: "2023", event: "Партнёрство с крупнейшими аукционами США. 1000+ авто." },
-    { year: "2024", event: "Выход на рынок Китая. Электромобили и гибриды." },
-  ];
-
-  const advantages = [
-    { icon: "Award", title: "Лицензированный таможенный брокер", desc: "Свидетельство ФТС России, работаем официально" },
-    { icon: "Clock", title: "Точные сроки", desc: "Называем конкретную дату — не «примерно»" },
-    { icon: "Eye", title: "Полная прозрачность", desc: "Все расходы известны до подписания договора" },
-    { icon: "Headphones", title: "Менеджер 24/7", desc: "Персональный менеджер на весь период сделки" },
-  ];
-
-  return (
-    <section id="about" className="py-24" style={{ background: "#0a0a0a" }}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
-          <div>
-            <p className="section-subtitle mb-3">Кто мы</p>
-            <h2 className="section-title mb-6">О компании</h2>
-            <p className="font-golos text-white/60 leading-relaxed mb-6">
-              AutoImport — команда профессионалов с 8-летним опытом в сфере международного
-              автомобильного импорта. Мы прошли путь от небольшого стартапа до одной из
-              ведущих компаний по привозу автомобилей в России.
-            </p>
-            <p className="font-golos text-white/60 leading-relaxed">
-              Наша миссия — сделать процесс покупки автомобиля за рубежом простым,
-              прозрачным и выгодным. Никаких скрытых платежей, никаких сюрпризов.
-            </p>
-
-            <div
-              className="mt-8 p-6 relative overflow-hidden"
-              style={{ background: "rgba(139,0,0,0.08)", border: "1px solid rgba(139,0,0,0.2)" }}
-            >
-              <p className="font-cormorant text-2xl italic text-white/80 leading-relaxed">
-                «Мы привозим не просто автомобили — мы воплощаем мечты наших клиентов»
-              </p>
-              <p className="font-golos text-xs text-[#8B0000] mt-4 tracking-widest">— АЛЕКСАНДР МОРОЗОВ, ОСНОВАТЕЛЬ</p>
-            </div>
-          </div>
-
-          <div className="relative">
-            <img
-              src={SHOWROOM_IMAGE}
-              alt="Наш шоурум"
-              className="w-full h-80 object-cover"
-              style={{ border: "1px solid rgba(139,0,0,0.2)" }}
-            />
-            <div
-              className="absolute -bottom-4 -left-4 p-4 crimson-glow"
-              style={{ background: "#8B0000", border: "1px solid #a80000" }}
-            >
-              <p className="font-cormorant text-3xl text-white">1200+</p>
-              <p className="font-golos text-xs text-white/70 tracking-wider">АВТО ПРИВЕЗЕНО</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="mb-16">
-          <p className="section-subtitle mb-8">История компании</p>
-          <div className="relative">
-            <div className="absolute left-[88px] top-0 bottom-0 w-px bg-gradient-to-b from-[#8B0000] via-[#8B0000]/50 to-transparent" />
-            <div className="space-y-6">
-              {timeline.map((t) => (
-                <div key={t.year} className="flex gap-8 items-start">
-                  <div className="w-16 text-right flex-shrink-0">
-                    <span className="font-cormorant text-lg text-[#8B0000]">{t.year}</span>
-                  </div>
-                  <div className="relative">
-                    <div className="absolute -left-[25px] top-2 w-3 h-3 rounded-full bg-[#8B0000]" />
-                    <p className="font-golos text-sm text-white/60 leading-relaxed">{t.event}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <p className="section-subtitle mb-8">Наши преимущества</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {advantages.map((a) => (
-              <div key={a.title} className="card-dark p-6">
-                <Icon name={a.icon} fallback="Star" size={24} className="text-[#8B0000] mb-4" />
-                <h3 className="font-cormorant text-xl text-white mb-2 font-light">{a.title}</h3>
-                <p className="font-golos text-xs text-white/40 leading-relaxed">{a.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ── BLOG ────────────────────────────────────────────────────────────────────
+// ── BLOG ─────────────────────────────────────────────────────────────────────
 function Blog() {
   const posts = [
     {
-      id: 1,
-      date: "12 апреля 2026",
-      tag: "Руководство",
-      title: "Как правильно растаможить автомобиль в 2026 году",
-      desc: "Полное руководство по таможенному оформлению: документы, сроки, стоимость пошлин и актуальные изменения в законодательстве.",
-      readTime: "8 мин",
+      tag: "Гид",
+      date: "18 апреля 2026",
+      title: "Как пригнать авто из Японии в 2026 году: пошаговое руководство",
+      desc: "Разбираем весь процесс: от поиска на аукционе до получения ПТС. Актуальные ставки пошлин и сроки.",
+      read: "9 мин",
     },
     {
-      id: 2,
-      date: "3 апреля 2026",
-      tag: "Рынки",
-      title: "Топ-5 причин покупать авто в Японии",
-      desc: "Японские автомобили — низкий пробег, идеальное состояние и доступные цены. Рассказываем, как работают японские аукционы.",
-      readTime: "5 мин",
+      tag: "Рынок",
+      date: "10 апреля 2026",
+      title: "Корейские авто vs японские: что выгоднее везти в Россию",
+      desc: "Сравниваем стоимость владения, надёжность и ликвидность Hyundai/Kia против Toyota/Nissan.",
+      read: "6 мин",
     },
     {
-      id: 3,
-      date: "28 марта 2026",
       tag: "Электромобили",
-      title: "Электромобили из Китая: реальность vs. ожидания",
-      desc: "Разбираем мифы и реальность китайских электромобилей BYD, NIO и Zeekr. Стоит ли везти в Россию в 2026?",
-      readTime: "7 мин",
+      date: "2 апреля 2026",
+      title: "BYD, Zeekr, NIO: стоит ли везти китайский электромобиль в 2026",
+      desc: "Честный разбор: гарантия, зарядная инфраструктура, таможня и реальный опыт владельцев.",
+      read: "8 мин",
     },
   ];
 
   return (
-    <section id="blog" className="py-24" style={{ background: "#080808" }}>
+    <section id="blog" className="py-28" style={{ background: "#080808" }}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-end mb-14">
+        <div className="flex items-end justify-between mb-12">
           <div>
-            <p className="section-subtitle mb-3">Статьи и советы</p>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-px bg-[#8B0000]" />
+              <span className="section-subtitle">Полезные материалы</span>
+            </div>
             <h2 className="section-title">Блог</h2>
           </div>
-          <button className="btn-ghost text-sm hidden md:block">Все статьи</button>
+          <button className="btn-ghost text-sm hidden md:block">Все статьи →</button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <article key={post.id} className="card-dark group cursor-pointer">
-              <div
-                className="h-3 bg-gradient-to-r from-[#8B0000] to-transparent"
-              />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {posts.map((p, i) => (
+            <article
+              key={i}
+              className="card-dark group cursor-pointer overflow-hidden"
+            >
+              <div className="h-1 w-full" style={{ background: "linear-gradient(to right, #8B0000, #5c0000)" }} />
               <div className="p-6">
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-5">
                   <span
-                    className="font-golos text-xs tracking-widest text-[#8B0000] px-2 py-1"
-                    style={{ border: "1px solid rgba(139,0,0,0.3)" }}
+                    className="font-golos text-[10px] tracking-widest text-[#8B0000] px-2 py-1 uppercase"
+                    style={{ border: "1px solid rgba(139,0,0,0.35)" }}
                   >
-                    {post.tag}
+                    {p.tag}
                   </span>
-                  <span className="font-golos text-xs text-white/30">{post.readTime}</span>
+                  <span className="font-golos text-[10px] text-white/25">{p.read}</span>
                 </div>
-                <h3 className="font-cormorant text-2xl text-white mb-3 font-light group-hover:text-[#8B0000] transition-colors duration-300 leading-tight">
-                  {post.title}
+                <h3 className="font-cormorant text-[22px] text-white font-light leading-snug mb-3 group-hover:text-[#8B0000] transition-colors duration-300">
+                  {p.title}
                 </h3>
-                <p className="font-golos text-sm text-white/50 leading-relaxed mb-6">{post.desc}</p>
+                <p className="font-golos text-xs text-white/40 leading-relaxed mb-6">{p.desc}</p>
                 <div className="flex justify-between items-center">
-                  <span className="font-golos text-xs text-white/30">{post.date}</span>
+                  <span className="font-golos text-[10px] text-white/20">{p.date}</span>
                   <button className="font-golos text-xs text-[#8B0000] flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Читать <Icon name="ArrowRight" size={12} />
+                    Читать <Icon name="ArrowRight" size={11} />
                   </button>
                 </div>
               </div>
@@ -768,66 +835,67 @@ function Blog() {
   );
 }
 
-// ── FAQ ─────────────────────────────────────────────────────────────────────
+// ── FAQ ───────────────────────────────────────────────────────────────────────
 function FAQ() {
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(0);
 
   const faqs = [
     {
-      q: "Сколько времени занимает весь процесс привоза?",
-      a: "В среднем 4–10 недель в зависимости от страны: Германия — 3–5 недель, США — 7–10 недель, Япония — 6–8 недель, Китай — 2–4 недели. Точные сроки менеджер укажет после оформления заказа.",
+      q: "В каких городах вы работаете?",
+      a: "Наш основной офис во Владивостоке, второй офис в Новосибирске. Но мы работаем дистанционно по всей России — консультации, документы, оплата — всё онлайн. Авто получаете во Владивостоке или организуем доставку в ваш город.",
     },
     {
-      q: "Нужно ли мне куда-то ехать для оформления?",
-      a: "Нет. Весь процесс можно пройти дистанционно. Мы работаем с клиентами по всей России онлайн. Для получения автомобиля достаточно нашего склада или доставки до вашего адреса.",
+      q: "Сколько стоит ваша комиссия?",
+      a: "Наша комиссия составляет 5% от стоимости автомобиля на аукционе. Никаких скрытых платежей — все расходы (доставка, таможня, сборы, наша комиссия) прописываются в договоре до начала работы.",
     },
     {
-      q: "Как рассчитывается таможенная пошлина?",
-      a: "Таможенная пошлина рассчитывается на основе объёма двигателя, возраста авто и его стоимости. Для автомобилей до 3 лет действует адвалорная ставка (% от стоимости), для более старых — специфическая (за см³). Используйте наш калькулятор для предварительного расчёта.",
+      q: "Сколько времени займёт привоз из Японии?",
+      a: "Из Японии до Владивостока в среднем 3–4 недели: 1–2 недели поиск и покупка на аукционе, 2 недели доставка морем. С таможней и постановкой на учёт — итого 4–6 недель.",
     },
     {
-      q: "Что если автомобиль окажется не в том состоянии?",
-      a: "Мы проверяем каждый автомобиль перед покупкой — осмотр, история ДТП, проверка VIN. Все автомобили застрахованы на время транспортировки. Если авто не соответствует описанию — возвращаем деньги.",
+      q: "Можно ли заказать конкретный автомобиль под мои параметры?",
+      a: "Да, это основная услуга. Вы описываете: марка, модель, год, пробег, комплектация, бюджет. Мы ищем на японских/корейских/китайских аукционах, согласовываем с вами лоты и покупаем.",
     },
     {
-      q: "Работаете ли вы с кредитом и рассрочкой?",
-      a: "Да, мы сотрудничаем с несколькими банками. Оформить кредит на зарубежный автомобиль можно прямо у нас в офисе или онлайн. Первоначальный взнос от 20%.",
+      q: "Как происходит оплата? Можно ли в рассрочку?",
+      a: "Оплата поэтапная: предоплата (цена авто + наша комиссия) перед покупкой на аукционе, таможенные платежи — при прибытии во Владивосток. Сотрудничаем с банками по автокредиту, первоначальный взнос от 20%.",
     },
     {
-      q: "Можно ли привезти авто под заказ?",
-      a: "Конечно. Это наша основная услуга. Вы описываете параметры желаемого авто — марка, модель, год, комплектация, бюджет. Мы находим лучшие варианты, согласовываем с вами и привозим.",
+      q: "Что если авто окажется не в заявленном состоянии?",
+      a: "Перед покупкой предоставляем аукционный лист с описанием состояния, фото со всех ракурсов, историю авто (CARFAX/японские базы). Авто застраховано на время транспортировки. При несоответствии описанию — решаем ситуацию за счёт компании.",
     },
   ];
 
   return (
-    <section id="faq" className="py-24" style={{ background: "#0a0a0a" }}>
+    <section id="faq" className="py-28" style={{ background: "#060606" }}>
       <div className="max-w-4xl mx-auto px-6">
-        <div className="mb-14 text-center">
-          <p className="section-subtitle mb-3">Частые вопросы</p>
-          <h2 className="section-title">FAQ</h2>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-px bg-[#8B0000]" />
+          <span className="section-subtitle">Часто спрашивают</span>
         </div>
+        <h2 className="section-title mb-12">FAQ</h2>
 
         <div className="space-y-2">
-          {faqs.map((faq, i) => (
+          {faqs.map((f, i) => (
             <div key={i} className="card-dark overflow-hidden">
               <button
-                className="w-full text-left p-6 flex justify-between items-center"
+                className="w-full text-left px-6 py-5 flex justify-between items-center gap-4"
                 onClick={() => setOpen(open === i ? null : i)}
               >
-                <span className="font-golos text-sm text-white pr-4">{faq.q}</span>
+                <span className="font-golos text-sm text-white/80 leading-snug">{f.q}</span>
                 <div
-                  className="w-8 h-8 flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                  className="w-7 h-7 flex items-center justify-center flex-shrink-0 transition-all duration-300"
                   style={{
                     background: open === i ? "#8B0000" : "transparent",
-                    border: `1px solid ${open === i ? "#8B0000" : "rgba(255,255,255,0.15)"}`,
+                    border: `1px solid ${open === i ? "#8B0000" : "rgba(255,255,255,0.12)"}`,
                   }}
                 >
-                  <Icon name={open === i ? "Minus" : "Plus"} size={14} className="text-white" />
+                  <Icon name={open === i ? "Minus" : "Plus"} size={13} className="text-white" />
                 </div>
               </button>
               {open === i && (
-                <div className="px-6 pb-6" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                  <p className="font-golos text-sm text-white/50 leading-relaxed pt-4">{faq.a}</p>
+                <div className="px-6 pb-5" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                  <p className="font-golos text-sm text-white/45 leading-relaxed pt-4">{f.a}</p>
                 </div>
               )}
             </div>
@@ -838,110 +906,132 @@ function FAQ() {
   );
 }
 
-// ── CONTACTS ────────────────────────────────────────────────────────────────
+// ── CONTACTS ──────────────────────────────────────────────────────────────────
 function Contacts() {
-  const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", city: "", comment: "" });
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSent(true);
-  };
-
   return (
-    <section id="contacts" className="py-24" style={{ background: "#080808" }}>
+    <section id="contacts" className="py-28" style={{ background: "#080808" }}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-14">
-          <p className="section-subtitle mb-3">Свяжитесь с нами</p>
-          <h2 className="section-title">Контакты</h2>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-px bg-[#8B0000]" />
+          <span className="section-subtitle">Связаться с нами</span>
         </div>
+        <h2 className="section-title mb-14">Контакты</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div>
-            <p className="font-golos text-white/60 leading-relaxed mb-10">
-              Оставьте заявку — менеджер свяжется в течение 15 минут в рабочее время
-              и расскажет о вариантах под ваш бюджет.
-            </p>
-
-            <div className="space-y-6">
+            {/* Офисы */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
               {[
-                { icon: "Phone", label: "Телефон", val: "+7 (800) 555-01-23" },
-                { icon: "Mail", label: "Email", val: "info@autoimport.ru" },
-                { icon: "MapPin", label: "Офис", val: "Москва, Пресненская наб., 12" },
-                { icon: "Clock", label: "Режим работы", val: "Пн–Сб: 9:00–20:00" },
-              ].map((c) => (
-                <div key={c.label} className="flex items-center gap-5">
-                  <div
-                    className="w-10 h-10 flex items-center justify-center flex-shrink-0"
-                    style={{ background: "rgba(139,0,0,0.1)", border: "1px solid rgba(139,0,0,0.25)" }}
-                  >
-                    <Icon name={c.icon} fallback="Star" size={16} className="text-[#8B0000]" />
-                  </div>
-                  <div>
-                    <p className="font-golos text-xs text-white/30 tracking-wider">{c.label}</p>
-                    <p className="font-golos text-sm text-white">{c.val}</p>
-                  </div>
+                {
+                  city: "Владивосток",
+                  phone: "+7 995-869-97-67",
+                  tg: "@VvozimAuto",
+                  link: "https://t.me/VvozimAuto",
+                },
+                {
+                  city: "Новосибирск",
+                  phone: "+7 933-282-89-74",
+                  tg: "@Vvozimauto1",
+                  link: "https://t.me/Vvozimauto1",
+                },
+              ].map((o) => (
+                <div
+                  key={o.city}
+                  className="card-dark p-5"
+                >
+                  <p className="font-golos text-[10px] text-[#8B0000] tracking-[0.3em] uppercase mb-3">{o.city}</p>
+                  <a href={`tel:${o.phone.replace(/\D/g, "")}`} className="font-cormorant text-2xl text-white block mb-1 hover:text-[#8B0000] transition-colors">
+                    {o.phone}
+                  </a>
+                  <a href={o.link} target="_blank" rel="noreferrer" className="font-golos text-xs text-white/40 hover:text-white/70 transition-colors">
+                    Telegram: {o.tg}
+                  </a>
                 </div>
               ))}
             </div>
 
-            <div className="flex gap-4 mt-10">
+            {/* Мессенджеры */}
+            <p className="font-golos text-[10px] text-white/25 tracking-widest uppercase mb-4">Написать нам</p>
+            <div className="flex flex-wrap gap-3 mb-10">
               {[
-                { icon: "MessageCircle", label: "Telegram" },
-                { icon: "Phone", label: "WhatsApp" },
+                { label: "Telegram чат", href: "https://t.me/VozimAutoChat", icon: "Send" },
+                { label: "Telegram канал", href: "https://t.me/Vozim_auto", icon: "Send" },
+                { label: "Авто.ру", href: "https://auto.ru/diler/cars/vozimauto_vladivostok", icon: "ExternalLink" },
               ].map((s) => (
-                <button key={s.label} className="btn-ghost text-sm flex items-center gap-2">
-                  <Icon name={s.icon} fallback="Star" size={16} />
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-ghost text-xs py-2 px-4 flex items-center gap-2"
+                >
+                  <Icon name={s.icon} fallback="Star" size={13} />
                   {s.label}
-                </button>
+                </a>
               ))}
+            </div>
+
+            <div
+              className="p-5"
+              style={{ background: "rgba(139,0,0,0.08)", border: "1px solid rgba(139,0,0,0.25)" }}
+            >
+              <p className="font-golos text-xs text-white/50 leading-relaxed">
+                Работаем <span className="text-white">пн–вс, 9:00–21:00</span> по Владивостоку (UTC+10).
+                Отвечаем в Telegram в течение 15 минут в рабочие часы.
+              </p>
             </div>
           </div>
 
           <div>
             {sent ? (
               <div
-                className="p-10 text-center"
-                style={{ background: "rgba(139,0,0,0.08)", border: "1px solid rgba(139,0,0,0.3)" }}
+                className="p-10 text-center h-full flex flex-col items-center justify-center"
+                style={{ background: "rgba(139,0,0,0.07)", border: "1px solid rgba(139,0,0,0.3)" }}
               >
-                <Icon name="CheckCircle" size={48} className="text-[#8B0000] mx-auto mb-4" />
-                <h3 className="font-cormorant text-3xl text-white mb-2">Заявка отправлена</h3>
-                <p className="font-golos text-sm text-white/50">Свяжемся с вами в течение 15 минут</p>
+                <Icon name="CheckCircle" size={44} className="text-[#8B0000] mb-4" />
+                <h3 className="font-cormorant text-3xl text-white mb-2">Заявка отправлена!</h3>
+                <p className="font-golos text-sm text-white/45">Менеджер свяжется в течение 15 минут</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <input
-                    className="input-dark"
-                    placeholder="Ваше имя"
-                    value={formData.name}
-                    onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div>
-                  <input
-                    className="input-dark"
-                    placeholder="Телефон"
-                    value={formData.phone}
-                    onChange={(e) => setFormData((f) => ({ ...f, phone: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div>
-                  <textarea
-                    className="input-dark resize-none"
-                    rows={5}
-                    placeholder="Расскажите, какой автомобиль вас интересует..."
-                    value={formData.message}
-                    onChange={(e) => setFormData((f) => ({ ...f, message: e.target.value }))}
-                  />
-                </div>
+              <form
+                onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+                className="space-y-3"
+              >
+                <input
+                  className="input-dark"
+                  placeholder="Ваше имя"
+                  value={form.name}
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                  required
+                />
+                <input
+                  className="input-dark"
+                  placeholder="Телефон или Telegram"
+                  value={form.phone}
+                  onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                  required
+                />
+                <input
+                  className="input-dark"
+                  placeholder="Ваш город"
+                  value={form.city}
+                  onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
+                />
+                <textarea
+                  className="input-dark resize-none"
+                  rows={4}
+                  placeholder="Какое авто ищете? Марка, бюджет, пожелания..."
+                  value={form.comment}
+                  onChange={(e) => setForm((f) => ({ ...f, comment: e.target.value }))}
+                />
                 <button type="submit" className="btn-crimson w-full text-sm">
                   Отправить заявку
                 </button>
-                <p className="font-golos text-xs text-white/20 text-center">
-                  Нажимая «Отправить», вы соглашаетесь с политикой конфиденциальности
+                <p className="font-golos text-[10px] text-white/20 text-center pt-1">
+                  Отправляя форму, вы соглашаетесь с обработкой персональных данных
                 </p>
               </form>
             )}
@@ -952,50 +1042,51 @@ function Contacts() {
   );
 }
 
-// ── FOOTER ──────────────────────────────────────────────────────────────────
+// ── FOOTER ────────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer style={{ background: "#050505", borderTop: "1px solid rgba(139,0,0,0.15)" }}>
-      <div className="max-w-7xl mx-auto px-6 py-12">
+    <footer style={{ background: "#030303", borderTop: "1px solid rgba(139,0,0,0.18)" }}>
+      <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 bg-[#8B0000] flex items-center justify-center">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 flex items-center justify-center" style={{ background: "#8B0000" }}>
               <Icon name="Car" size={14} className="text-white" />
             </div>
-            <span className="font-cormorant text-lg font-semibold text-white tracking-wider">
-              AUTO<span className="text-[#8B0000]">IMPORT</span>
+            <span className="font-cormorant text-lg text-white tracking-widest">
+              VOZIM <span className="text-[#8B0000]">AUTO</span>
             </span>
           </div>
-          <div className="flex flex-wrap gap-6 justify-center">
-            {["Каталог", "Услуги", "Калькулятор", "О нас", "Блог", "FAQ", "Контакты"].map((l) => (
+
+          <div className="flex flex-wrap gap-5 justify-center">
+            {["О нас", "Каталог", "Процесс", "Калькулятор", "Блог", "FAQ", "Контакты"].map((l) => (
               <a
                 key={l}
-                href={`#${l.toLowerCase()}`}
-                className="font-golos text-xs text-white/30 hover:text-white/70 transition-colors tracking-wider"
+                href={`#${l === "О нас" ? "about" : l === "Процесс" ? "process" : l === "Контакты" ? "contacts" : l.toLowerCase()}`}
+                className="font-golos text-[10px] text-white/25 hover:text-white/60 transition-colors tracking-widest uppercase"
               >
                 {l}
               </a>
             ))}
           </div>
-          <p className="font-golos text-xs text-white/20">
-            © 2026 AutoImport
-          </p>
+
+          <p className="font-golos text-[10px] text-white/20 tracking-wider">© 2026 VOZIM AUTO</p>
         </div>
       </div>
     </footer>
   );
 }
 
-// ── PAGE ────────────────────────────────────────────────────────────────────
+// ── PAGE ──────────────────────────────────────────────────────────────────────
 export default function Index() {
   return (
-    <div className="min-h-screen" style={{ background: "#080808" }}>
+    <div style={{ background: "#080808" }}>
       <Navbar />
       <Hero />
-      <Catalog />
-      <Services />
-      <Calculator />
+      <RoutesStrip />
       <About />
+      <Catalog />
+      <Process />
+      <Calculator />
       <Blog />
       <FAQ />
       <Contacts />
