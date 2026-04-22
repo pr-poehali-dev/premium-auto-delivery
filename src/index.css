@@ -63,59 +63,86 @@
   }
 
   body {
-    @apply bg-background text-foreground font-golos;
+    @apply bg-background text-foreground;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
     background-color: #080808;
     overflow-x: hidden;
+    letter-spacing: 0.01em;
   }
 
   h1,
   h2,
   h3 {
-    @apply font-cormorant;
+    font-family: "Cormorant", serif;
   }
 }
 
 @layer components {
   .section-title {
-    @apply font-cormorant text-5xl md:text-6xl font-light text-white;
+    font-family: "Cormorant", serif;
+    @apply text-[52px] md:text-[70px] text-white;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    line-height: 1.04;
   }
 
   .section-subtitle {
-    @apply font-golos text-xs tracking-[0.35em] uppercase text-[#8B0000];
+    font-family: "Montserrat", sans-serif;
+    @apply text-[10px] tracking-[0.45em] uppercase text-[#8B0000];
+    font-weight: 500;
   }
 
   .btn-crimson {
-    @apply bg-[#8B0000] hover:bg-[#a80000] text-white font-golos font-medium tracking-wider transition-all duration-300 px-8 py-3 cursor-pointer;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    @apply bg-[#8B0000] hover:bg-[#a80000] text-white transition-all duration-300 px-8 py-3.5 cursor-pointer;
     border: 1px solid #8b0000;
   }
 
   .btn-ghost {
-    @apply bg-transparent hover:bg-white/5 text-white font-golos font-medium tracking-wider transition-all duration-300 px-8 py-3 cursor-pointer;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    @apply bg-transparent hover:bg-white/5 text-white transition-all duration-300 px-8 py-3.5 cursor-pointer;
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
 
   .card-dark {
-    background: #141414;
-    border: 1px solid rgba(139, 0, 0, 0.15);
+    background: #111111;
+    border: 1px solid rgba(139, 0, 0, 0.12);
     transition:
-      border-color 0.3s ease,
-      transform 0.3s ease;
+      border-color 0.4s ease,
+      transform 0.4s ease;
   }
 
   .card-dark:hover {
-    border-color: rgba(139, 0, 0, 0.5);
-    transform: translateY(-4px);
+    border-color: rgba(139, 0, 0, 0.45);
+    transform: translateY(-3px);
   }
 
   .nav-link {
-    @apply text-white/60 hover:text-white transition-colors duration-200 font-golos text-sm tracking-wide;
+    font-family: "Montserrat", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    @apply text-white/55 hover:text-white transition-colors duration-300;
   }
 
   .input-dark {
-    background: #0f0f0f;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: white;
-    @apply font-golos text-sm px-4 py-3 w-full transition-all duration-200;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    @apply px-4 py-3.5 w-full transition-all duration-200;
   }
 
   .input-dark:focus {
